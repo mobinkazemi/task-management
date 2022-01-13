@@ -1,14 +1,28 @@
-import { Table, Column, Model } from 'sequelize-typescript';
+import { Table, Column, Model, DataType } from 'sequelize-typescript';
 import { TaskStatus } from './task-status.enum';
 
 @Table
 export class Task extends Model {
-  @Column
+  @Column({
+    type: DataType.STRING(128),
+    allowNull: true,
+    defaultValue: 'Title',
+    comment: 'عنوان',
+  })
   title: string;
 
-  @Column
+  @Column({
+    type: DataType.TEXT,
+    allowNull: true,
+    comment: 'توضیحات',
+  })
   description: string;
 
-  @Column
-  status: TaskStatus;
+  @Column({
+    type: DataType.ENUM('FINISHED', 'UNFINISHED'),
+    allowNull: true,
+    defaultValue: 'UNFINISHED',
+    comment: 'وضعیت',
+  })
+  status: string;
 }
