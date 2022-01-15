@@ -25,4 +25,11 @@ export class Task extends Model {
     comment: 'وضعیت',
   })
   status: string;
+
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: true,
+    comment: 'شناسه کاربر',
+  })
+  userId: string;
 }
