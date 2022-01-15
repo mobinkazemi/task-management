@@ -28,7 +28,7 @@ export class TasksService {
     const result = await this.tasksRepository.findAll({ where, raw: true });
     return result;
   }
-  async getTaskById(id: string): Promise<Task> {
+  async getTaskById(id: number): Promise<Task> {
     const result = await this.tasksRepository.findByPk(id, { raw: true });
     if (!result) throw new NotFoundException('شناسه تسک نامعتبر است.');
     return result;
@@ -39,18 +39,16 @@ export class TasksService {
     return result;
   }
 
-  async deleteTask(id: string): Promise<void> {
+  async deleteTask(id: number): Promise<void> {
     const result = await this.tasksRepository.destroy({ where: { id } });
 
     if (!result) throw new NotFoundException('شناسه تسک نامعتبر است');
 
     return;
   }
-  async updateTaskStatus(
-    id: string,
-    updateTaskDTO: UpdateTaskDTO,
-  ): Promise<Task> {
-    const { status } = updateTaskDTO;
+
+  async updateTaskStatus(updateTaskDTO: UpdateTaskDTO): Promise<Task> {
+    const { status, id } = updateTaskDTO;
 
     const task = await this.getTaskById(id);
 
