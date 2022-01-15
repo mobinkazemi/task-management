@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize-typescript';
+import { User } from 'src/users/users.entity';
 import { Task } from '../tasks/tasks.entity.sequelize';
 export const databaseProviders = [
   {
@@ -12,7 +13,7 @@ export const databaseProviders = [
         password: '2122',
         database: 'task-management',
       });
-      sequelize.addModels([Task]);
+      sequelize.addModels([Task, User]);
       await sequelize.sync();
       return sequelize;
     },
