@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Put,
   Query,
   Inject,
 } from '@nestjs/common';
@@ -27,7 +28,7 @@ export class TasksController {
   }
 
   @Get('/info/:id')
-  getTaskById(@Param('id') id: string): Promise<Task> {
+  getTaskById(@Param('id') id: number): Promise<Task> {
     return this.tasksService.getTaskById(id);
   }
 
@@ -37,15 +38,12 @@ export class TasksController {
   }
 
   @Delete('/delete/:id')
-  deleteTask(@Param('id') id: string): Promise<void> {
+  deleteTask(@Param('id') id: number): Promise<void> {
     return this.tasksService.deleteTask(id);
   }
 
-  @Patch('/:id/status')
-  updateTaskStatus(
-    @Param('id') id: string,
-    @Body() updateTaskDTO: UpdateTaskDTO,
-  ): Promise<Task> {
-    return this.tasksService.updateTaskStatus(id, updateTaskDTO);
+  @Put('/update')
+  updateTaskStatus(@Body() updateTaskDTO: UpdateTaskDTO): Promise<Task> {
+    return this.tasksService.updateTaskStatus(updateTaskDTO);
   }
 }
