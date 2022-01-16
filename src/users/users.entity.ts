@@ -1,5 +1,5 @@
-import { Table, Column, Model, DataType } from 'sequelize-typescript';
-
+import { Table, Column, Model, DataType, HasMany } from 'sequelize-typescript';
+import { Task } from '../tasks/tasks.entity.sequelize';
 @Table
 export class User extends Model {
   @Column({
@@ -30,4 +30,7 @@ export class User extends Model {
     comment: 'گذرواژه',
   })
   password: string;
+
+  @HasMany(() => Task)
+  task: Task;
 }
