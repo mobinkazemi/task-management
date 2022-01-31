@@ -6,18 +6,24 @@ import { userProviders } from './users.provider';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { UserAuthStrategy } from './users.auth-strategy';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   providers: [UsersService, ...userProviders, UserAuthStrategy],
   controllers: [UsersController],
   imports: [
+    ConfigModule,
     DatabaseModule,
     PassportModule.register({
       defaultStrategy: 'jwt',
     }),
-    JwtModule.register({
-      secret: 'stupid-secret',
-      signOptions: { expiresIn: 3600 * 4 },
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get('JWT_SECRET'),
+        signOptions: { expiresIn: 3600 * 4 },
+      }),
     }),
   ],
   exports: [UserAuthStrategy, PassportModule],
